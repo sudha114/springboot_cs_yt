@@ -8,17 +8,22 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @SpringBootApplication
 public class Module1IntroductionApplication implements CommandLineRunner {
 
   //  @Autowired
-     final NotificationService notificationServiceObj; //Dependency Injection
-
+//     final NotificationService notificationServiceObj; //Dependency Injection
+//
+//    @Autowired
+//    public Module1IntroductionApplication( NotificationService notificationServiceObj) {
+//        this.notificationServiceObj = notificationServiceObj;    // Constructor DI - Preferred
+//    }
     @Autowired
-    public Module1IntroductionApplication( NotificationService notificationServiceObj) {
-        this.notificationServiceObj = notificationServiceObj;    // Constructor DI - Preferred
-    }
+    Map<String,NotificationService> notificationServiceMap = new HashMap<>();
 
     public static void main(String[] args) {
 
@@ -31,7 +36,12 @@ public class Module1IntroductionApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
        // NotificationService notificationServiceObj= new EmailNotificationService();
-        notificationServiceObj.send("Hey, are you there?");
+       // notificationServiceObj.send("Hey, are you there?");
+
+        for (var notificationServiceObj: notificationServiceMap.entrySet()){
+            System.out.println(notificationServiceObj.getKey());
+            notificationServiceObj.getValue().send("Hello");
+        }
 
 
     }
