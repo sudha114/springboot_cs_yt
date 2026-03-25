@@ -1,6 +1,9 @@
 package com.example.sudha.module1.introduction;
 
+import com.example.sudha.module1.introduction.Impl.EmailNotificationService;
+import com.example.sudha.module1.introduction.Impl.SmsNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,10 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Module1IntroductionApplication implements CommandLineRunner {
 
+  //  @Autowired
+     final NotificationService notificationServiceObj; //Dependency Injection
+
     @Autowired
-    PaymentService paymentServiceObj1;
-    @Autowired
-    PaymentService paymentServiceObj2;
+    public Module1IntroductionApplication(@Qualifier("emailNotif") NotificationService notificationServiceObj) {
+        this.notificationServiceObj = notificationServiceObj;    // Constructor DI - Preferred
+    }
 
     public static void main(String[] args) {
 
@@ -24,11 +30,9 @@ public class Module1IntroductionApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println(paymentServiceObj1.hashCode());
+       // NotificationService notificationServiceObj= new EmailNotificationService();
+        notificationServiceObj.send("Hey, are you there?");
 
-        System.out.println(paymentServiceObj2.hashCode());
-        paymentServiceObj1.pay();
-        paymentServiceObj2.pay();
 
     }
 }
